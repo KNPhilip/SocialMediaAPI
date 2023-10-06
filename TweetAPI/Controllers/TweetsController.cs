@@ -1,9 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Text;
-using TweetAPI.Dtos;
-using Tweetinvi;
-using Tweetinvi.Core.Web;
-using Tweetinvi.Models;
 
 namespace TweetAPI.Controllers
 {
