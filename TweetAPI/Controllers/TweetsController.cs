@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Mapster;
+using Microsoft.AspNetCore.Mvc;
+using System.Diagnostics.Eventing.Reader;
 using System.Text;
 
 namespace TweetAPI.Controllers
@@ -15,6 +17,20 @@ namespace TweetAPI.Controllers
         }
 
         [HttpPost]
+        public IActionResult ScheduleTweet(PostScheduledTweetDto request)
+        {
+            TimeSpan delay = request.ScheduleFor - DateTime.UtcNow;
+
+            if (delay > TimeSpan.Zero)
+            {
+                BackgroundJob.Schedule(() => PostTweet(request.Adapt<PostTweetDto>()), delay);
+                return Ok("Tweet scheduled!");
+            }
+            else return BadRequest("Please enter a valid date and time.");
+        }
+
+        [HttpPost]
+        [AutomaticRetry(Attempts = 0)]
         public async Task<IActionResult> PostTweet(PostTweetDto request)
         {
             TwitterClient client = new(_config["XConsumerKey"],
