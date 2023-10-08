@@ -1,6 +1,5 @@
 ﻿using Mapster;
 using Microsoft.AspNetCore.Mvc;
-using System.Diagnostics.Eventing.Reader;
 using System.Text;
 
 namespace TweetAPI.Controllers
@@ -14,6 +13,29 @@ namespace TweetAPI.Controllers
         public TweetsController(IConfiguration config)
         {
             _config = config;
+        }
+
+        [HttpPost("bulk")]
+        public IActionResult ScheduleTweets(PostScheduledTweetListDto request)
+        {
+            List<PostScheduledTweetDto> invalidTweets = new();
+            int scheduledCount = 0;
+
+            foreach(PostScheduledTweetDto tweet in request.Tweets)
+            {
+                TimeSpan delay = tweet.ScheduleFor - DateTime.UtcNow;
+
+                if (delay <= TimeSpan.Zero)
+                    invalidTweets.Add(tweet);
+
+                BackgroundJob.Schedule(() => PostTweet(tweet.Adapt<PostTweetDto>()), delay);
+                scheduledCount++;
+            }
+
+            return Ok(invalidTweets.Any() 
+                ? $"{scheduledCount} tweets scheduled successfully,"
+                    + $"however, {invalidTweets.Count} tweets had invalid dates and were not scheduled."
+                : $"All {scheduledCount} tweets scheduled successfully!");
         }
 
         [HttpPost]
