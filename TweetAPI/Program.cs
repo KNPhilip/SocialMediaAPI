@@ -3,6 +3,7 @@ global using Tweetinvi;
 global using Tweetinvi.Core.Web;
 global using Tweetinvi.Models;
 global using Hangfire;
+using TweetAPI.Services.XService;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +15,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddHangfire(configuration => configuration
     .UseSqlServerStorage(builder.Configuration.GetConnectionString("Default")));
+
+builder.Services.AddScoped<IXService, XService>();
 
 builder.Services.AddHangfireServer();
 
