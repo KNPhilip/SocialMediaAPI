@@ -3,9 +3,7 @@ using TweetAPI.Services.XService;
 
 namespace TweetAPI.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class TweetsController : ControllerBase
+    public class TweetsController : ControllerTemplate
     {
         private readonly IXService _xService;
 
@@ -18,7 +16,7 @@ namespace TweetAPI.Controllers
         public IActionResult ScheduleTweets(PostScheduledTweetListDto request) =>
             Ok(_xService.ScheduleTweets(request));
 
-        [HttpPost]
+        [HttpPost("schedule")]
         public IActionResult ScheduleTweet(PostScheduledTweetDto request) =>
             _xService.ScheduleTweet(request) ? Ok("Tweet scheduled!") : BadRequest("Please enter a valid date and time.");
 

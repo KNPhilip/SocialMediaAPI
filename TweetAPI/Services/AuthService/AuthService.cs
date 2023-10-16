@@ -9,16 +9,23 @@ namespace TweetAPI.Services.AuthService
 {
     public class AuthService : IAuthService
     {
-        public static User? user;
-        private readonly IConfiguration _config;
+        private static IConfiguration? _config;
 
         public AuthService(IConfiguration config) 
         {
             _config = config;
         }
 
-        public ResponseDto<User> Register(RegisterDto request) =>
-            ResponseDto<User>.SuccessResponse((user, request).Adapt<User>());
+        public User? user { get; set; }
+
+        public ResponseDto<User> Register(RegisterDto request)
+        {
+            User returning = (user, request).Adapt<User>();
+
+            returning.Id = 1;
+
+            return ResponseDto<User>.CreatedResponse(returning, returning.Id);
+        }
             
         public ResponseDto<string> Login(LoginDto request)
         {
@@ -29,7 +36,7 @@ namespace TweetAPI.Services.AuthService
             return ResponseDto<string>.SuccessResponse(CreateJWT(user));
         }
 
-        private string CreateJWT(User user)
+        private static string CreateJWT(User user)
         {
             List<Claim> claims = new()
             {
@@ -38,7 +45,7 @@ namespace TweetAPI.Services.AuthService
                 new Claim(ClaimTypes.Role, "Admin")
             };
 
-            SymmetricSecurityKey key = new(Encoding.UTF8.GetBytes(_config["TokenSecret"]!));
+            SymmetricSecurityKey key = new(Encoding.UTF8.GetBytes(_config!["TokenSecret"]!));
 
             SigningCredentials creds = new(key, SecurityAlgorithms.HmacSha512Signature);
 
