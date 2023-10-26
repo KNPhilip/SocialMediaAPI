@@ -5,6 +5,8 @@ VisualStudioVersion = 17.7.34031.279
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TweetAPI", "TweetAPI\TweetAPI.csproj", "{38D6B972-0213-40B3-A90C-646AA7A898CF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YoutubeAPI", "YoutubeAPI\YoutubeAPI.csproj", "{D5D0C30A-0E51-42A5-B59D-E247E6A0FCA1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{38D6B972-0213-40B3-A90C-646AA7A898CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{38D6B972-0213-40B3-A90C-646AA7A898CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{38D6B972-0213-40B3-A90C-646AA7A898CF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D5D0C30A-0E51-42A5-B59D-E247E6A0FCA1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D5D0C30A-0E51-42A5-B59D-E247E6A0FCA1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D5D0C30A-0E51-42A5-B59D-E247E6A0FCA1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D5D0C30A-0E51-42A5-B59D-E247E6A0FCA1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
