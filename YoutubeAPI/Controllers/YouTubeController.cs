@@ -2,6 +2,7 @@ using Google.Apis.Services;
 using Google.Apis.YouTube.v3;
 using Google.Apis.YouTube.v3.Data;
 using Microsoft.AspNetCore.Mvc;
+using YoutubeAPI.Dtos;
 
 namespace YoutubeAPI.Controllers
 {
@@ -31,6 +32,16 @@ namespace YoutubeAPI.Controllers
             searchRequest.Order = SearchResource.ListRequest.OrderEnum.Date;
 
             SearchListResponse searchResponse = await searchRequest.ExecuteAsync();
+
+            var videoList = searchResponse.Items.Select(item => new VideoDetailsDto
+            {
+                Title = item.Snippet.Title,
+                Link = $"https://www.youtube.com/watch?v={item.Id.VideoId}",
+                Thumbnail = item.Snippet.Thumbnails.Medium.Url,
+                PublishedAt = item.Snippet.PublishedAtDateTimeOffset
+            })
+            .OrderByDescending(v => v.PublishedAt)
+            .ToList();
 
             return Ok(searchResponse);
         } 
