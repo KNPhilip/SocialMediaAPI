@@ -18,7 +18,7 @@ namespace YoutubeAPI.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetChannelVideos()
+        public async Task<ActionResult<List<VideoDetailsDto>>> GetChannelVideos(string? pageToken = null, int maxResults = 10)
         {
             YouTubeService youtubeService = new(new BaseClientService.Initializer
             {
@@ -30,10 +30,12 @@ namespace YoutubeAPI.Controllers
                 youtubeService.Search.List("snippet");
             searchRequest.ChannelId = "";
             searchRequest.Order = SearchResource.ListRequest.OrderEnum.Date;
+            searchRequest.MaxResults = maxResults;
+            searchRequest.PageToken = pageToken;
 
             SearchListResponse searchResponse = await searchRequest.ExecuteAsync();
 
-            var videoList = searchResponse.Items.Select(item => new VideoDetailsDto
+            List<VideoDetailsDto> videoList = searchResponse.Items.Select(item => new VideoDetailsDto
             {
                 Title = item.Snippet.Title,
                 Link = $"https://www.youtube.com/watch?v={item.Id.VideoId}",
@@ -43,7 +45,14 @@ namespace YoutubeAPI.Controllers
             .OrderByDescending(v => v.PublishedAt)
             .ToList();
 
-            return Ok(searchResponse);
+            YouTubeResponseDto response = new()
+            {
+                Videos = videoList,
+                NextPageToken = searchResponse.NextPageToken,
+                PrevPageToken = searchResponse.PrevPageToken
+            };
+
+            return Ok(response);
         } 
     }
 }
