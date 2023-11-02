@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using YoutubeAPI.Dtos;
 
-namespace TweetAPI.Controllers
+namespace YoutubeAPI.Controllers
 {
     [Route("api/v1/[controller]")]
     [ApiController]
