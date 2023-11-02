@@ -10,11 +10,11 @@ namespace YoutubeAPI.Controllers
     [Route("api/[controller]")]
     public class YouTubeController : ControllerBase
     {
-        private readonly IConfiguration _config;
+        private readonly IConfiguration _conggfig;
 
         public YouTubeController(IConfiguration config)
         {
-            _config = config;
+            _conggfig = config;
         }
 
         [HttpGet]
