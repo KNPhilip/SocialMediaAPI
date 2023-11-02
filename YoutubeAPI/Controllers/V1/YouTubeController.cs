@@ -2,19 +2,18 @@ using Google.Apis.Services;
 using Google.Apis.YouTube.v3;
 using Google.Apis.YouTube.v3.Data;
 using Microsoft.AspNetCore.Mvc;
+using TweetAPI.Controllers;
 using YoutubeAPI.Dtos;
 
 namespace YoutubeAPI.Controllers
 {
-    [ApiController]
-    [Route("api/[controller]")]
-    public class YouTubeController : ControllerBase
+    public class YouTubeController : ControllerTemplate
     {
-        private readonly IConfiguration _conggfig;
+        private readonly IConfiguration _config;
 
         public YouTubeController(IConfiguration config)
         {
-            _conggfig = config;
+            _config = config;
         }
 
         [HttpGet]
