@@ -1,3 +1,4 @@
+using Mapster;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -20,7 +21,7 @@ namespace YoutubeAPI.Services.AuthService
 
         public ResponseDto<User> Register(RegisterDto request)
         {
-            // User returning = (user, request).Adapt<User>();
+            User returning = (user, request).Adapt<User>();
 
             returning.Id = 1;
 
