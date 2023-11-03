@@ -1,4 +1,4 @@
-﻿namespace TweetAPI.Models
+﻿namespace YoutubeAPI.Models
 {
     public class User
     {
