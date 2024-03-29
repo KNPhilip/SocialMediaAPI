@@ -1,7 +1,6 @@
-﻿namespace TweetAPI.Dtos
+﻿namespace TweetAPI.Dtos;
+
+public sealed class PostScheduledTweetListDto
 {
-    public class PostScheduledTweetListDto
-    {
-        public List<PostScheduledTweetDto> Tweets { get; set; } = new();
-    }
+    public List<PostScheduledTweetDto> Tweets { get; set; } = [];
 }

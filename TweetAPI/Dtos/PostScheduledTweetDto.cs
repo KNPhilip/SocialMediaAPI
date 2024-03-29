@@ -1,11 +1,8 @@
-﻿using Newtonsoft.Json;
+﻿namespace TweetAPI.Dtos;
 
-namespace TweetAPI.Dtos
+public sealed class PostScheduledTweetDto
 {
-    public class PostScheduledTweetDto
-    {
-        [JsonProperty("text")]
-        public required string Text { get; set; }
-        public DateTime ScheduleFor { get; set; }
-    }
+    [JsonProperty("text")]
+    public required string Text { get; set; }
+    public DateTime ScheduleFor { get; set; }
 }

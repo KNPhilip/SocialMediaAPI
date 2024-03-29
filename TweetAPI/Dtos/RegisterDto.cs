@@ -1,8 +1,7 @@
-﻿namespace TweetAPI.Dtos
+﻿namespace TweetAPI.Dtos;
+
+public sealed class RegisterDto
 {
-    public sealed class RegisterDto
-    {
-        public string? Username { get; set; }
-        public string? Password { get; set; }
-    }
+    public string? Username { get; set; }
+    public string? Password { get; set; }
 }

@@ -1,14 +1,4 @@
-global using TweetAPI.Dtos;
-global using Tweetinvi;
-global using Tweetinvi.Core.Web;
-global using Tweetinvi.Models;
-global using Hangfire;
-using TweetAPI.Services.XService;
-using Mapster;
-using TweetAPI.Models;
-using TweetAPI.Services.AuthService;
-
-var builder = WebApplication.CreateBuilder(args);
+WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
 ConfigureMapster();
 
@@ -26,7 +16,7 @@ builder.Services.AddScoped<IAuthService, AuthService>();
 
 builder.Services.AddHangfireServer();
 
-var app = builder.Build();
+WebApplication app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -47,7 +37,7 @@ app.Run();
 
 static void ConfigureMapster()
 {
-    var config = TypeAdapterConfig.GlobalSettings;
+    TypeAdapterConfig config = TypeAdapterConfig.GlobalSettings;
 
     config.ForType<(User baseUser, RegisterDto dto), User>()
         .Map(dest => dest.Username, src => src.dto.Username)

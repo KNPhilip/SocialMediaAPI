@@ -1,20 +1,26 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿namespace TweetAPI.Controllers;
 
-namespace TweetAPI.Controllers
+[Route("api/v1/[controller]")]
+[ApiController]
+public class ControllerTemplate : ControllerBase
 {
-    [Route("api/v1/[controller]")]
-    [ApiController]
-    public class ControllerTemplate : ControllerBase
+    protected ActionResult HandleResult<T>(ResponseDto<T> response, string? actionName = null)
     {
-        protected ActionResult HandleResult<T>(ResponseDto<T> response, string? actionName = null)
+        if (response.Success is false)
         {
-            if (response.Success == true)
-                if (response.Data is not null)
-                    return response.NewId is not null && actionName is not null
-                        ? CreatedAtAction(actionName, new { id = response.NewId }, response.Data)
-                        : Ok(response.Data);
-                else return NotFound();
-            else return BadRequest(response.Error);
+            return BadRequest(response.Error);
         }
+
+        if (response.Data is null)
+        {
+            return NotFound();
+        }
+
+        if (response.NewId is not null && actionName is not null)
+        {
+            return CreatedAtAction(actionName, new { id = response.NewId }, response.Data);
+        }
+
+        return Ok(response.Data);
     }
 }

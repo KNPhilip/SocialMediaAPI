@@ -1,0 +1,15 @@
+﻿global using System.IdentityModel.Tokens.Jwt;
+global using System.Security.Claims;
+global using System.Text;
+global using Microsoft.IdentityModel.Tokens;
+global using Microsoft.AspNetCore.Mvc;
+global using Tweetinvi;
+global using Tweetinvi.Core.Web;
+global using Tweetinvi.Models;
+global using Newtonsoft.Json;
+global using Hangfire;
+global using Mapster;
+global using TweetAPI.Dtos;
+global using TweetAPI.Models;
+global using TweetAPI.Services.XService;
+global using TweetAPI.Services.AuthService;

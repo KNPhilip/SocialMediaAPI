@@ -1,10 +1,7 @@
-﻿using Newtonsoft.Json;
+﻿namespace TweetAPI.Dtos;
 
-namespace TweetAPI.Dtos
+public sealed class PostTweetDto
 {
-    public class PostTweetDto
-    {
-        [JsonProperty("text")]
-        public required string Text { get; set; }
-    }
+    [JsonProperty("text")]
+    public required string Text { get; set; }
 }
