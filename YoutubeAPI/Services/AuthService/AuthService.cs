@@ -1,66 +1,52 @@
-using Mapster;
-using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
-using YoutubeAPI.Dtos;
-using YoutubeAPI.Models;
+namespace YoutubeAPI.Services.AuthService;
 
-namespace YoutubeAPI.Services.AuthService
+public sealed class AuthService(IConfiguration config) : IAuthService
 {
-    public class AuthService : IAuthService
+    private readonly IConfiguration _config = config;
+
+    public User? User { get; set; }
+
+    public ResponseDto<User> Register(RegisterDto request)
     {
-        private readonly IConfiguration _config;
+        User returning = (User, request).Adapt<User>();
 
-        public AuthService(IConfiguration config)
+        returning.Id = 1;
+
+        return ResponseDto<User>.CreatedResponse(returning, returning.Id);
+    }
+        
+    public ResponseDto<string> Login(LoginDto request)
+    {
+        if (request.Username != User!.Username ||
+            !BCrypt.Net.BCrypt.Verify(User.PasswordHash, request.Password))
+                return ResponseDto<string>.ErrorResponse("Incorrect username or password.");
+
+        return ResponseDto<string>.SuccessResponse(CreateJWT(User));
+    }
+
+    private string CreateJWT(User request)
+    {
+        List<Claim> claims =
+        [
+            new Claim(ClaimTypes.NameIdentifier, request.Id.ToString()),
+            new Claim(ClaimTypes.Name, request.Username),
+            new Claim(ClaimTypes.Role, "Admin")
+        ];
+
+        SymmetricSecurityKey key = new(Encoding.UTF8.GetBytes(_config["TokenKey"]!));
+
+        SigningCredentials creds = new(key, SecurityAlgorithms.HmacSha512Signature);
+
+        SecurityTokenDescriptor scripter = new()
         {
-            _config = config;
-        }
+            SigningCredentials = creds,
+            Expires = DateTime.UtcNow.AddDays(7),
+            Subject = new ClaimsIdentity(claims)
+        };
 
-        public User? user { get; set; }
+        JwtSecurityTokenHandler tokenHandler = new();
+        SecurityToken token = tokenHandler.CreateToken(scripter);
 
-        public ResponseDto<User> Register(RegisterDto request)
-        {
-            User returning = (user, request).Adapt<User>();
-
-            returning.Id = 1;
-
-            return ResponseDto<User>.CreatedResponse(returning, returning.Id);
-        }
-            
-        public ResponseDto<string> Login(LoginDto request)
-        {
-            if (request.Username != user!.Username ||
-                !BCrypt.Net.BCrypt.Verify(user.PasswordHash, request.Password))
-                    return ResponseDto<string>.ErrorResponse("Incorrect username or password.");
-
-            return ResponseDto<string>.SuccessResponse(CreateJWT(user));
-        }
-
-        private string CreateJWT(User request)
-        {
-            List<Claim> claims = new()
-            {
-                new Claim(ClaimTypes.NameIdentifier, request.Id.ToString()),
-                new Claim(ClaimTypes.Name, request.Username),
-                new Claim(ClaimTypes.Role, "Admin")
-            };
-
-            SymmetricSecurityKey key = new(Encoding.UTF8.GetBytes(_config["TokenKey"]!));
-
-            SigningCredentials creds = new(key, SecurityAlgorithms.HmacSha512Signature);
-
-            SecurityTokenDescriptor scripter = new()
-            {
-                SigningCredentials = creds,
-                Expires = DateTime.UtcNow.AddDays(7),
-                Subject = new ClaimsIdentity(claims)
-            };
-
-            JwtSecurityTokenHandler tokenHandler = new();
-            SecurityToken token = tokenHandler.CreateToken(scripter);
-
-            return tokenHandler.WriteToken(token);
-        }
+        return tokenHandler.WriteToken(token);
     }
 }

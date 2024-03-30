@@ -1,10 +1,4 @@
-using Mapster;
-using YoutubeAPI.Dtos;
-using YoutubeAPI.Models;
-using YoutubeAPI.Services.AuthService;
-using YoutubeAPI.Services.YTService;
-
-var builder = WebApplication.CreateBuilder(args);
+WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
@@ -18,7 +12,7 @@ builder.Services.AddScoped<IAuthService, AuthService>();
 
 ConfigureMapster();
 
-var app = builder.Build();
+WebApplication app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -37,7 +31,7 @@ app.Run();
 
 static void ConfigureMapster()
 {
-    var config = TypeAdapterConfig.GlobalSettings;
+    TypeAdapterConfig config = TypeAdapterConfig.GlobalSettings;
 
     config.ForType<(User baseUser, RegisterDto dto), User>()
         .Map(dest => dest.Username, src => src.dto.Username)

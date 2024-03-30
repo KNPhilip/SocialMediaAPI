@@ -1,8 +1,7 @@
-﻿namespace YoutubeAPI.Dtos
+﻿namespace YoutubeAPI.Dtos;
+
+public sealed class RegisterDto
 {
-    public class RegisterDto
-    {
-        public string? Username { get; set; }
-        public string? Password { get; set; }
-    }
+    public string? Username { get; set; }
+    public string? Password { get; set; }
 }

@@ -1,9 +1,8 @@
-namespace YoutubeAPI.Dtos
+namespace YoutubeAPI.Dtos;
+
+public sealed class YouTubeResponseDto
 {
-    public class YouTubeResponseDto
-    {
-        public List<VideoDetailsDto> Videos { get; set; } = new();
-        public string? NextPageToken { get; set; }
-        public string? PrevPageToken { get; set; }
-    }
+    public List<VideoDetailsDto> Videos { get; set; } = [];
+    public string? NextPageToken { get; set; }
+    public string? PrevPageToken { get; set; }
 }

@@ -1,20 +1,10 @@
-using Microsoft.AspNetCore.Mvc;
-using YoutubeAPI.Dtos;
-using YoutubeAPI.Services.YTService;
+namespace YoutubeAPI.Controllers;
 
-namespace YoutubeAPI.Controllers
+public sealed class YouTubeController(IYTService ytService) : ControllerTemplate
 {
-    public class YouTubeController : ControllerTemplate
-    {
-        private readonly IYTService _ytService;
+    private readonly IYTService _ytService = ytService;
 
-        public YouTubeController(IYTService ytService)
-        {
-            _ytService = ytService;
-        }
-
-        [HttpGet]
-        public async Task<ActionResult<YouTubeResponseDto>> GetChannelVideos(string? pageToken = null, int maxResults = 10) =>
-            HandleResult(await _ytService.GetChannelVideos(pageToken, maxResults));
-    }
+    [HttpGet]
+    public async Task<ActionResult<YouTubeResponseDto>> GetChannelVideos(string? pageToken = null, int maxResults = 10) =>
+        HandleResult(await _ytService.GetChannelVideos(pageToken, maxResults));
 }

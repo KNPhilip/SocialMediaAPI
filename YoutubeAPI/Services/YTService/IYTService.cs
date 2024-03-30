@@ -1,9 +1,6 @@
-using YoutubeAPI.Dtos;
+namespace YoutubeAPI.Services.YTService;
 
-namespace YoutubeAPI.Services.YTService
+public interface IYTService
 {
-    public interface IYTService
-    {
-        Task<ResponseDto<YouTubeResponseDto>> GetChannelVideos(string? pageToken = null, int maxResults = 10);
-    }
+    Task<ResponseDto<YouTubeResponseDto>> GetChannelVideos(string? pageToken = null, int maxResults = 10);
 }

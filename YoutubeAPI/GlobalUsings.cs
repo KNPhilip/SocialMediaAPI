@@ -1,0 +1,13 @@
+﻿global using System.IdentityModel.Tokens.Jwt;
+global using System.Security.Claims;
+global using System.Text;
+global using Microsoft.AspNetCore.Mvc;
+global using Microsoft.IdentityModel.Tokens;
+global using YoutubeAPI.Dtos;
+global using YoutubeAPI.Models;
+global using YoutubeAPI.Services.AuthService;
+global using YoutubeAPI.Services.YTService;
+global using Google.Apis.Services;
+global using Google.Apis.YouTube.v3;
+global using Google.Apis.YouTube.v3.Data;
+global using Mapster;
